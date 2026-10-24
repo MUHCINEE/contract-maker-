@@ -1,797 +1,420 @@
 <!DOCTYPE html>
 <html lang="fr" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contrat de Prestation - Muhcin.dev</title>
-    <script>
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.replace('dark', 'light');
-        }
-    </script>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        darkBg: '#0a0a0c',
-                        cardBg: 'rgba(18, 18, 22, 0.75)',
-                        grayAccent: '#6b7280',
-                        grayHover: '#d1d5db',
-                        crimsonAccent: '#e63946'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            color-scheme: dark;
-            --page-bg: #0a0a0c;
-            --page-fg: #e2e8f0;
-            --panel-bg: rgba(18, 18, 22, 0.75);
-            --input-bg: rgba(10, 10, 12, 0.8);
-            --input-fg: #f8fafc;
-            --surface-border: rgba(255, 255, 255, 0.08);
-            --accent: #6b7280;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contrat de Prestation - Muhcin.dev</title>
+<script>
+  if (localStorage.getItem('theme') === 'light') document.documentElement.classList.replace('dark', 'light');
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root, html.light {
+    color-scheme: light;
+    --bg:#f5f6f8; --surface:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0;
+    --field-bg:#ffffff; --field-border:#94a3b8; --field-hover:#475569;
+    --accent:#4f46e5; --accent-hover:#4338ca; --ring:rgba(79,70,229,.22);
+    --shadow:0 1px 2px rgba(15,23,42,.05), 0 12px 28px -16px rgba(15,23,42,.16);
+  }
+  html.dark {
+    color-scheme: dark;
+    --bg:#0b0d12; --surface:#12151c; --text:#e8ebf1; --muted:#9aa4b2; --line:#252b37;
+    --field-bg:#0b0e14; --field-border:#5d687c; --field-hover:#8b97ac;
+    --accent:#818cf8; --accent-hover:#a5b4fc; --ring:rgba(129,140,248,.30);
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 12px 28px -16px rgba(0,0,0,.6);
+  }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
 
-        html.light {
-            color-scheme: light;
-            --page-bg: #f3f4f6;
-            --page-fg: #1f2937;
-            --panel-bg: rgba(255, 255, 255, 0.88);
-            --input-bg: rgba(255, 255, 255, 0.9);
-            --input-fg: #111827;
-            --surface-border: rgba(15, 23, 42, 0.12);
-            --accent: #4b5563;
-        }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); }
+  .lbl { display:block; font-size:12px; font-weight:500; color:var(--text); margin-bottom:6px; }
+  .field {
+    width:100%; height:42px; padding:0 12px; font-size:14px; color:var(--text);
+    background:var(--field-bg); border:1.5px solid var(--field-border); border-radius:10px;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  textarea.field { height:auto; min-height:96px; padding:10px 12px; line-height:1.5; resize:vertical; }
+  select.field {
+    appearance:none; padding-right:34px; cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2394a3b8' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 10px center;
+  }
+  .field:hover { border-color:var(--field-hover); }
+  .field:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 4px var(--ring); }
 
-        body {
-            background-color: var(--page-bg);
-            color: var(--page-fg);
-            font-family: 'Inter', sans-serif;
-            background-image:
-                radial-gradient(circle at 15% 15%, rgba(107, 114, 128, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 85% 85%, rgba(230, 57, 70, 0.04) 0%, transparent 45%);
-            background-attachment: fixed;
-        }
+  .btn { display:inline-flex; align-items:center; gap:8px; height:38px; padding:0 14px; font-size:13px; font-weight:500; border-radius:10px; transition:all .15s ease; cursor:pointer; }
+  .btn-ghost { color:var(--text); background:var(--surface); border:1.5px solid var(--field-border); }
+  .btn-ghost:hover { border-color:var(--field-hover); }
+  .btn-primary { color:#fff; background:var(--accent); border:1.5px solid transparent; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+  html.dark .btn-primary { color:#0b0d12; }
+  .btn-primary:hover { background:var(--accent-hover); }
+  .btn:focus-visible, .link:focus-visible { outline:none; box-shadow:0 0 0 4px var(--ring); }
+  .link { font-size:12px; font-weight:500; color:var(--accent); border-radius:6px; cursor:pointer; }
+  .link:hover { text-decoration:underline; }
+  .step { width:24px; height:24px; border-radius:999px; font-size:12px; font-weight:600; display:grid; place-items:center; color:var(--accent); background:var(--ring); flex:none; }
 
-        /* Glassmorphism Styles */
-        .glass-panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--surface-border);
-        }
+  .sig-wrap { background:#fff; border:1.5px dashed var(--field-border); border-radius:10px; overflow:hidden; position:relative; transition:border-color .15s, box-shadow .15s; }
+  .sig-wrap:hover { border-color:var(--field-hover); }
+  .sig-wrap:focus-within { border-color:var(--accent); box-shadow:0 0 0 4px var(--ring); }
+  .sig-canvas { touch-action:none; cursor:crosshair; display:block; width:100%; }
 
-        .glass-input {
-            background: var(--input-bg);
-            border: 1px solid var(--surface-border);
-            color: var(--input-fg);
-            transition: all 0.25s ease;
-        }
+  /* Contract paper: always white so print and signatures stay consistent */
+  .paper { background:#fff; color:#0f172a; border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); }
+  .empty { color:#94a3b8 !important; font-style:italic; font-weight:400 !important; }
 
-        .glass-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 12px rgba(107, 114, 128, 0.25);
-            outline: none;
-        }
-
-        .gray-gradient-text {
-            background: linear-gradient(135deg, #e5e7eb 0%, #9ca3af 50%, #4b5563 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .gray-glow-hover {
-            transition: all 0.3s ease;
-        }
-        .gray-glow-hover:hover {
-            border-color: rgba(156, 163, 175, 0.5);
-            box-shadow: 0 0 20px rgba(107, 114, 128, 0.15);
-        }
-
-        /* Canvas Signature styling */
-        .sig-canvas {
-            touch-action: none;
-            cursor: crosshair;
-            background: var(--input-bg);
-        }
-
-        html.light .text-white {
-            color: #111827 !important;
-        }
-
-        html.light .text-gray-300 {
-            color: #4b5563 !important;
-        }
-
-        html.light .text-gray-400,
-        html.light .text-gray-500 {
-            color: #6b7280 !important;
-        }
-
-        html.light .text-gray-600 {
-            color: #4b5563 !important;
-        }
-
-        html.light .text-grayAccent {
-            color: #4b5563 !important;
-        }
-
-        html.light [class~="border-white/5"],
-        html.light [class~="border-white/10"],
-        html.light [class~="border-white/20"] {
-            border-color: var(--surface-border) !important;
-        }
-
-        html.light [class~="bg-white/5"],
-        html.light [class~="bg-white/10"] {
-            background-color: rgba(15, 23, 42, 0.04) !important;
-        }
-
-        html.light [class~="bg-black/30"] {
-            background-color: rgba(15, 23, 42, 0.04) !important;
-        }
-
-        html.light [class~="bg-grayAccent"] {
-            background-color: #4b5563 !important;
-            color: #ffffff !important;
-        }
-
-        html.light [class~="from-grayAccent"] {
-            --tw-gradient-from: #d1d5db var(--tw-gradient-from-position);
-            --tw-gradient-to: rgb(209 213 219 / 0) var(--tw-gradient-to-position);
-            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-        }
-
-        html.light [class~="to-gray-500"] {
-            --tw-gradient-to: #9ca3af var(--tw-gradient-to-position);
-        }
-
-        html.light .gray-gradient-text {
-            background-image: linear-gradient(135deg, #374151 0%, #6b7280 50%, #9ca3af 100%);
-        }
-
-        /* Print Media Stylesheet */
-        @media print {
-            body {
-                background: #ffffff !important;
-                color: #0f172a !important;
-            }
-            .no-print {
-                display: none !important;
-            }
-            .print-full-width {
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-            }
-            .contract-document {
-                background: #ffffff !important;
-                color: #0f172a !important;
-                border: none !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-            }
-            .contract-document * {
-                color: #0f172a !important;
-                border-color: #cbd5e1 !important;
-            }
-            .gray-gradient-text {
-                background: none !important;
-                background-clip: border-box !important;
-                -webkit-background-clip: border-box !important;
-                -webkit-text-fill-color: #0f172a !important;
-                color: #0f172a !important;
-            }
-            .print-badge {
-                border: 1px solid #0f172a !important;
-            }
-            .page-break {
-                page-break-before: always;
-            }
-        }
-    </style>
+  @media print {
+    body { background:#fff !important; }
+    .no-print { display:none !important; }
+    .print-full { width:100% !important; max-width:100% !important; margin:0 !important; padding:0 !important; }
+    .paper { border:none !important; box-shadow:none !important; padding:0 !important; }
+  }
+</style>
 </head>
 <body class="min-h-screen pb-16">
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-grayAccent text-black font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-        <span id="toastMsg">Lien copié dans le presse-papiers !</span>
+<header class="no-print sticky top-0 z-40 border-b" style="background:var(--surface);border-color:var(--line)">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg grid place-items-center font-bold text-sm" style="background:var(--accent);color:#fff">M</div>
+      <div class="leading-tight">
+        <div class="text-sm font-semibold tracking-wide">MUHCIN.CODES</div>
+        <div class="text-xs" style="color:var(--muted)">Contrat de prestation freelance</div>
+      </div>
     </div>
+    <div class="flex items-center gap-2">
+      <button id="themeToggle" type="button" onclick="toggleTheme()" class="btn btn-ghost" aria-label="Changer de thème">
+        <svg class="sun-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+        <svg class="moon-icon w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.9 13A9 9 0 0111 3.1 9 9 0 1020.9 13z"/></svg>
+        <span id="themeToggleText" class="hidden sm:inline">Mode clair</span>
+      </button>
+      <button type="button" onclick="window.print()" class="btn btn-primary">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+        <span>Imprimer / PDF</span>
+      </button>
+    </div>
+  </div>
+</header>
 
-    <!-- Top Navigation / Header -->
-    <header class="no-print border-b border-white/10 glass-panel sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-grayAccent to-gray-600 flex items-center justify-center font-bold text-black text-xl shadow-lg shadow-grayAccent/20">
-                    M
-                </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider gray-gradient-text">MUHCIN.CODES</span>
-                    <span class="text-xs block text-gray-400 font-medium">Contrat de Prestation Freelance</span>
-                </div>
-            </div>
-            
-            <div class="flex items-center space-x-3">
-                <button id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Activer le mode clair" class="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-medium text-xs hover:bg-white/10 hover:text-white transition flex items-center space-x-2">
-                    <svg class="sun-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke-width="2"></circle><path stroke-linecap="round" stroke-width="2" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
-                    <svg class="moon-icon w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.9 13A9 9 0 0111 3.1 9 9 0 1020.9 13z"></path></svg>
-                    <span id="themeToggleText">Mode clair</span>
-                </button>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-                <button onclick="copyContractLink()" class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-medium text-xs hover:bg-white/10 hover:text-white transition flex items-center space-x-2">
-                    <svg class="w-4 h-4 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                    <span>Copier Lien du Contrat</span>
-                </button>
+  <!-- FORM -->
+  <div class="lg:col-span-5 space-y-6 no-print">
 
-                <button onclick="window.print()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-grayAccent to-gray-500 text-black font-semibold text-xs hover:brightness-110 transition flex items-center space-x-2 shadow-lg shadow-grayAccent/20">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                    <span>Imprimer / Télécharger PDF</span>
-                </button>
-            </div>
+    <section class="card p-6">
+      <h2 class="flex items-center gap-3 text-[15px] font-semibold mb-5"><span class="step">1</span>Informations du client</h2>
+      <div class="space-y-4">
+        <div><label class="lbl" for="inputClientName">Nom complet du client / représentant</label><input class="field" type="text" id="inputClientName" oninput="updateContract()" autocomplete="off"></div>
+        <div><label class="lbl" for="inputClientBusiness">Entreprise / société</label><input class="field" type="text" id="inputClientBusiness" oninput="updateContract()" autocomplete="off"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="lbl" for="inputClientEmail">Email</label><input class="field" type="email" id="inputClientEmail" oninput="updateContract()" autocomplete="off"></div>
+          <div><label class="lbl" for="inputContractDate">Date d'émission</label><input class="field" type="date" id="inputContractDate" oninput="updateContract()"></div>
         </div>
-    </header>
+        <div><label class="lbl" for="inputClientAddress">Adresse officielle</label><input class="field" type="text" id="inputClientAddress" oninput="updateContract()" autocomplete="off"></div>
+      </div>
+    </section>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <!-- Grid layout: Left Form Inputs, Right Dynamic Preview -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-            <!-- LEFT COLUMN: Interactive Controls (Hidden during print) -->
-            <div class="lg:col-span-5 space-y-6 no-print">
-                
-                <!-- Client Details Panel -->
-                <div class="glass-panel p-6 rounded-2xl gray-glow-hover">
-                    <h2 class="text-base font-semibold gray-gradient-text mb-4 flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        <span>1. Informations du Client</span>
-                    </h2>
-                    
-                    <div class="space-y-3.5 text-xs">
-                        <div>
-                            <label class="block text-gray-400 mb-1">Nom Complet du Client / Représentant</label>
-                            <input type="text" id="inputClientName" value="Kharbouch Youssef" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-400 mb-1">Nom de l'Entreprise / Société</label>
-                            <input type="text" id="inputClientBusiness" value="Casa Sushi SARL" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-gray-400 mb-1">Email</label>
-                                <input type="email" id="inputClientEmail" value="contact@casasushi.ma" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-1">Date d'Émission</label>
-                                <input type="date" id="inputContractDate" onchange="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-400 mb-1">Adresse Officielle</label>
-                            <input type="text" id="inputClientAddress" value="Bd d'Anfa, Casablanca, Maroc" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project Scope Panel -->
-                <div class="glass-panel p-6 rounded-2xl gray-glow-hover">
-                    <h2 class="text-base font-semibold gray-gradient-text mb-4 flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        <span>2. Détails & Périmètre du Projet</span>
-                    </h2>
-
-                    <div class="space-y-3.5 text-xs">
-                        <div>
-                            <label class="block text-gray-400 mb-1">Titre du Projet</label>
-                            <input type="text" id="inputProjectTitle" value="Plateforme Web & Application Dashboard - Casa Sushi" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-gray-400 mb-1">Technologies (Tech Stack)</label>
-                                <input type="text" id="inputTechStack" value="React, Next.js, Tailwind, Firebase" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-1">Révisions Incluses</label>
-                                <input type="text" id="inputRevisions" value="3 Tours de révisions majeures" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-400 mb-1">Livrables Majeurs (séparés par des virgules)</label>
-                            <textarea id="inputDeliverables" rows="3" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">Interface vitrine web responsive, Catalogue de commande en ligne, Dashboard administrateur en temps réel, Système de notification de commande, Optimisation SEO & performances</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Financials & Timeline Panel -->
-                <div class="glass-panel p-6 rounded-2xl gray-glow-hover">
-                    <h2 class="text-base font-semibold gray-gradient-text mb-4 flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>3. Financement & Calendrier</span>
-                    </h2>
-
-                    <div class="space-y-3.5 text-xs">
-                        <div class="grid grid-cols-3 gap-3">
-                            <div>
-                                <label class="block text-gray-400 mb-1">Devise</label>
-                                <select id="inputCurrency" onchange="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                                    <option value="MAD" selected>MAD</option>
-                                    <option value="EUR">EUR (€)</option>
-                                    <option value="USD">USD ($)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-1">Montant Total</label>
-                                <input type="number" id="inputAmount" value="15000" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-1">Acompte (%)</label>
-                                <input type="number" id="inputDepositPercent" value="50" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-gray-400 mb-1">Délai d'Exécution</label>
-                                <input type="text" id="inputTimeline" value="3 à 4 Semaines" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                            <div>
-                                <label class="block text-gray-400 mb-1">Support Post-Lancement</label>
-                                <input type="text" id="inputSupportPeriod" value="30 jours inclus" oninput="updateContract()" class="w-full px-3.5 py-2 rounded-xl glass-input">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Signatures Pads Controls -->
-                <div class="glass-panel p-6 rounded-2xl gray-glow-hover space-y-6">
-                    <div>
-                        <h2 class="text-base font-semibold gray-gradient-text mb-3 flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                            <span>4. Signature Numérique du Client</span>
-                        </h2>
-                        <p class="text-xs text-gray-400 mb-2">Veuillez signer à l'aide de votre souris ou écran tactile :</p>
-                        <div class="border border-white/20 rounded-xl overflow-hidden relative">
-                            <canvas id="clientSigCanvas" width="400" height="130" class="w-full sig-canvas"></canvas>
-                            <span class="absolute bottom-2 right-2 text-[10px] text-gray-500 pointer-events-none">Zone Client</span>
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <button onclick="clearCanvas('clientSigCanvas')" class="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs hover:bg-red-500/20 transition">
-                                Effacer
-                            </button>
-                            <span class="text-xs text-emerald-400 flex items-center space-x-1" id="clientSigStatus">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                                <span>En attente...</span>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="pt-4 border-t border-white/10">
-                        <h2 class="text-base font-semibold gray-gradient-text mb-3 flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            <span>Signature du Prestataire (Muhcin.dev)</span>
-                        </h2>
-                        <div class="border border-white/20 rounded-xl overflow-hidden relative">
-                            <canvas id="devSigCanvas" width="400" height="110" class="w-full sig-canvas"></canvas>
-                        </div>
-                        <div class="flex justify-between items-center mt-2">
-                            <button onclick="clearCanvas('devSigCanvas')" class="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs hover:bg-red-500/20 transition">
-                                Effacer
-                            </button>
-                            <button onclick="drawDevDefaultSignature()" class="text-xs text-grayAccent hover:underline">
-                                Réinitialiser Signature Par Défaut
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT COLUMN: Real-Time Contract Preview (Print Target) -->
-            <div class="lg:col-span-7 print-full-width">
-                <div class="glass-panel contract-document p-8 sm:p-10 rounded-2xl border border-white/10 shadow-2xl relative">
-                    
-                    <!-- Document Watermark/Badge -->
-                    <div class="flex justify-between items-start border-b border-white/10 pb-6 mb-6">
-                        <div>
-                            <span class="text-xs font-bold uppercase tracking-widest text-grayAccent print-badge px-2.5 py-1 rounded-md bg-grayAccent/10 border border-grayAccent/20">
-                                CONTRAT OFFICIEL DE PRESTATION WEB
-                            </span>
-                            <h1 class="text-2xl font-extrabold mt-3 gray-gradient-text" id="docProjectTitle">
-                                Plateforme Web & Application Dashboard - Casa Sushi
-                            </h1>
-                            <p class="text-xs text-gray-400 mt-1">Réf: CS-DEV-2026/08 • Émis le <span id="docCurrentDate"></span></p>
-                        </div>
-                        <div class="text-right">
-                            <span class="text-lg font-bold tracking-wider text-white">MUHCIN.CODES</span>
-                            <p class="text-[11px] text-gray-400">Développement Full-Stack</p>
-                            <p class="text-[11px] text-gray-400">Tanger, Maroc</p>
-                        </div>
-                    </div>
-
-                    <!-- Contract Parties Section -->
-                    <div class="grid grid-cols-2 gap-6 mb-8 text-xs p-4 rounded-xl bg-white/5 border border-white/5">
-                        <div>
-                            <span class="text-grayAccent font-semibold uppercase tracking-wider block mb-1">PRESTATAIRE (DÉVELOPPEUR)</span>
-                            <p class="font-bold text-sm text-white">Muhcin Full-Stack Dev</p>
-                            <p class="text-gray-400">Représentant Muhcin.codes</p>
-                            <p class="text-gray-400">Email: m.daghmoumyy@gmail.com</p>
-                            <p class="text-gray-400">Web: muhcinee.github.io/MUHCIN.CODES/</p>
-                        </div>
-                        <div>
-                            <span class="text-grayAccent font-semibold uppercase tracking-wider block mb-1">CLIENT COMMANDITAIRE</span>
-                            <p class="font-bold text-sm text-white" id="docClientName">Kharbouch Youssef</p>
-                            <p class="text-gray-300 font-medium" id="docClientBusiness">Casa Sushi SARL</p>
-                            <p class="text-gray-400" id="docClientEmail">Email: contact@casasushi.ma</p>
-                            <p class="text-gray-400" id="docClientAddress">Bd d'Anfa, Casablanca, Maroc</p>
-                        </div>
-                    </div>
-
-                    <!-- Contract Clauses / Articles -->
-                    <div class="space-y-6 text-xs text-gray-300 leading-relaxed">
-                        
-                        <!-- Article 1 -->
-                        <div>
-                            <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-grayAccent">1.</span>
-                                <span>Objet du Contrat & Périmètre Technique</span>
-                            </h3>
-                            <p>
-                                Le présent contrat régit la conception et le développement de <strong class="text-white" id="docProjectTitleScope">Plateforme Web Casa Sushi</strong> par le Prestataire pour le compte du Client.
-                            </p>
-                            <div class="mt-2 text-gray-400">
-                                <p class="mb-1"><strong>Stack Technique Prévue :</strong> <span id="docTechStack" class="text-white">React, Next.js, Tailwind, Firebase</span></p>
-                                <p><strong>Livrables inclus :</strong></p>
-                                <ul id="docDeliverablesList" class="list-disc list-inside mt-1 space-y-0.5 pl-2 text-gray-300">
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Article 2 -->
-                        <div>
-                            <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-grayAccent">2.</span>
-                                <span>Conditions Financières & Modalités de Paiement</span>
-                            </h3>
-                            <p>
-                                Le montant global forfaitaire accordé pour l'exécution globale des livrables est de <strong class="text-grayAccent font-bold text-sm" id="docTotalAmount">15 000 MAD</strong>. Le règlement s'effectuera selon le calendrier suivant :
-                            </p>
-                            <div class="mt-2.5 grid grid-cols-2 gap-3 text-[11px]">
-                                <div class="p-3 rounded-xl bg-black/40 border border-white/10">
-                                    <span class="block text-gray-400">Acompte de démarrage (<span id="docDepositRate">50</span>%) :</span>
-                                    <span class="font-bold text-white text-xs" id="docDepositAmount">7 500 MAD</span> (À la signature)
-                                </div>
-                                <div class="p-3 rounded-xl bg-black/40 border border-white/10">
-                                    <span class="block text-gray-400">Solde à la livraison (<span id="docBalanceRate">50</span>%) :</span>
-                                    <span class="font-bold text-white text-xs" id="docBalanceAmount">7 500 MAD</span> (Avant mise en ligne)
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Article 3 -->
-                        <div>
-                            <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-grayAccent">3.</span>
-                                <span>Planning, Révisions & Support</span>
-                            </h3>
-                            <p>
-                                Le projet sera livré sous un délai estimé à <strong class="text-white" id="docTimeline">3 à 4 Semaines</strong> après réception de l'acompte et des éléments nécessaires. 
-                            </p>
-                            <ul class="list-disc list-inside mt-1.5 text-gray-400 space-y-0.5 pl-2">
-                                <li><strong>Inclusions Révisions :</strong> <span id="docRevisions" class="text-gray-300">3 Tours de révisions majeures</span>.</li>
-                                <li><strong>Garantie & Maintenance :</strong> Un support de <span id="docSupportPeriod" class="text-gray-300">30 jours inclus</span> suit la mise en production officielle.</li>
-                            </ul>
-                        </div>
-
-                        <!-- Article 4 -->
-                        <div>
-                            <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-grayAccent">4.</span>
-                                <span>Propriété Intellectuelle</span>
-                            </h3>
-                            <p>
-                                L'intégralité du code source, des accès administratifs et des droits d'exploitation associés au projet est cédée au Client à compter de la réception de l'intégralité du paiement visé à l'Article 2. Le Prestataire conserve le droit de citation du projet à titre de référence sur sa vitrine (Muhcin.dev).
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <!-- Signatures Box Section -->
-                    <div class="mt-10 pt-6 border-t border-white/10">
-                        <p class="text-[11px] text-gray-400 mb-4 text-center">En signant ci-dessous, les deux parties confirment accepter l'intégralité des clauses contractuelles présentées ci-dessus.</p>
-
-                        <div class="grid grid-cols-2 gap-8">
-                            <!-- Client Signature Render -->
-                            <div class="text-center">
-                                <span class="text-[11px] text-gray-400 block mb-2">Pour le Client (<span id="docSigClientBusiness">Casa Sushi SARL</span>)</span>
-                                <div class="h-24 border border-dashed border-white/20 rounded-xl flex items-center justify-center p-2 bg-black/30">
-                                    <img id="clientSigImg" class="max-h-full max-w-full hidden" alt="Signature Client">
-                                    <span id="clientSigPlaceholder" class="text-[10px] text-gray-600 italic">Signature Client en attente</span>
-                                </div>
-                                <p class="text-xs font-semibold text-white mt-2" id="docSigClientName">Kharbouch Youssef</p>
-                            </div>
-
-                            <!-- Developer Signature Render -->
-                            <div class="text-center">
-                                <span class="text-[11px] text-gray-400 block mb-2">Pour le Prestataire (Muhcin.dev)</span>
-                                <div class="h-24 border border-dashed border-white/20 rounded-xl flex items-center justify-center p-2 bg-black/30">
-                                    <img id="devSigImg" class="max-h-full max-w-full" alt="Signature Prestataire">
-                                </div>
-                                <p class="text-xs font-semibold text-white mt-2">Muhcin Full-Stack Dev</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Arabic Summary Terms Notice -->
-                    <div class="mt-8 pt-4 border-t border-white/10 text-right font-sans text-[11px] text-gray-400 dir-rtl" dir="rtl">
-                        <p><strong>ملخص الاتفاقية:</strong> يتعهد الطرفان بالالتزام بكافة بنود هذا العقد المتعلق بتطوير الموقع والتطبيق الإلكتروني، وتعتبر التوقيعات الرقمية أعلاه ذات حجية قانونية ملزمة للطرفين بعد سداد الدفعة الأولى.</p>
-                    </div>
-
-                </div>
-            </div>
-
+    <section class="card p-6">
+      <h2 class="flex items-center gap-3 text-[15px] font-semibold mb-5"><span class="step">2</span>Détails &amp; périmètre du projet</h2>
+      <div class="space-y-4">
+        <div><label class="lbl" for="inputProjectTitle">Titre du projet</label><input class="field" type="text" id="inputProjectTitle" oninput="updateContract()" autocomplete="off"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="lbl" for="inputTechStack">Technologies</label><input class="field" type="text" id="inputTechStack" oninput="updateContract()" autocomplete="off"></div>
+          <div><label class="lbl" for="inputRevisions">Révisions incluses</label><input class="field" type="text" id="inputRevisions" oninput="updateContract()" autocomplete="off"></div>
         </div>
-    </main>
+        <div><label class="lbl" for="inputDeliverables">Livrables majeurs <span style="color:var(--muted);font-weight:400">(séparés par des virgules)</span></label><textarea class="field" id="inputDeliverables" rows="3" oninput="updateContract()"></textarea></div>
+      </div>
+    </section>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // Init Date Input to Today by Default
-        const dateInput = document.getElementById('inputContractDate');
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.value = today;
+    <section class="card p-6">
+      <h2 class="flex items-center gap-3 text-[15px] font-semibold mb-5"><span class="step">3</span>Financement &amp; calendrier</h2>
+      <div class="space-y-4">
+        <div class="grid grid-cols-3 gap-4">
+          <div><label class="lbl" for="inputCurrency">Devise</label>
+            <select class="field" id="inputCurrency" onchange="updateContract()"><option value="MAD" selected>MAD</option><option value="EUR">EUR (€)</option><option value="USD">USD ($)</option></select></div>
+          <div><label class="lbl" for="inputAmount">Montant total</label><input class="field" type="number" min="0" id="inputAmount" oninput="updateContract()"></div>
+          <div><label class="lbl" for="inputDepositPercent">Acompte (%)</label><input class="field" type="number" min="0" max="100" id="inputDepositPercent" oninput="updateContract()"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div><label class="lbl" for="inputTimeline">Délai d'exécution</label><input class="field" type="text" id="inputTimeline" oninput="updateContract()" autocomplete="off"></div>
+          <div><label class="lbl" for="inputSupportPeriod">Support post-lancement</label><input class="field" type="text" id="inputSupportPeriod" oninput="updateContract()" autocomplete="off"></div>
+        </div>
+      </div>
+    </section>
 
-        // Dynamic Form Updater
-        function updateContract() {
-            const clientName = document.getElementById('inputClientName').value || 'Nom du Client';
-            const clientBusiness = document.getElementById('inputClientBusiness').value || 'Entreprise';
-            const clientEmail = document.getElementById('inputClientEmail').value || 'client@email.com';
-            const clientAddress = document.getElementById('inputClientAddress').value || 'Adresse';
-            
-            const rawDate = document.getElementById('inputContractDate').value;
-            const formattedDate = rawDate ? new Date(rawDate).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' }) : new Date().toLocaleDateString('fr-FR');
+    <section class="card p-6 space-y-6">
+      <div>
+        <h2 class="flex items-center gap-3 text-[15px] font-semibold mb-1"><span class="step">4</span>Signature du client</h2>
+        <p class="text-xs mb-3 ml-9" style="color:var(--muted)">Signez à la souris ou sur écran tactile.</p>
+        <div class="sig-wrap"><canvas id="clientSigCanvas" width="400" height="130" class="sig-canvas"></canvas></div>
+        <div class="flex justify-between items-center mt-3">
+          <button type="button" onclick="clearCanvas('clientSigCanvas')" class="btn btn-ghost" style="height:32px;font-size:12px">Effacer</button>
+          <span class="flex items-center gap-2 text-xs" id="clientSigStatus" style="color:var(--muted)"><span class="w-2 h-2 rounded-full" style="background:#f59e0b"></span><span>En attente de signature</span></span>
+        </div>
+      </div>
+      <div class="pt-6 border-t" style="border-color:var(--line)">
+        <h2 class="text-[15px] font-semibold mb-3">Signature du prestataire</h2>
+        <div class="sig-wrap"><canvas id="devSigCanvas" width="400" height="110" class="sig-canvas"></canvas></div>
+        <div class="flex justify-between items-center mt-3">
+          <button type="button" onclick="clearCanvas('devSigCanvas')" class="btn btn-ghost" style="height:32px;font-size:12px">Effacer</button>
+          <button type="button" onclick="drawDevDefaultSignature()" class="link">Rétablir la signature par défaut</button>
+        </div>
+      </div>
+    </section>
+  </div>
 
-            const projectTitle = document.getElementById('inputProjectTitle').value || 'Projet Web';
-            const techStack = document.getElementById('inputTechStack').value || 'N/A';
-            const revisions = document.getElementById('inputRevisions').value || 'N/A';
-            const rawDeliverables = document.getElementById('inputDeliverables').value || '';
+  <!-- PREVIEW -->
+  <div class="lg:col-span-7 print-full">
+    <article class="paper p-8 sm:p-12">
 
-            const currency = document.getElementById('inputCurrency').value;
-            const totalAmount = parseFloat(document.getElementById('inputAmount').value) || 0;
-            const depositPercent = parseFloat(document.getElementById('inputDepositPercent').value) || 0;
-            const timeline = document.getElementById('inputTimeline').value || 'N/A';
-            const supportPeriod = document.getElementById('inputSupportPeriod').value || 'N/A';
+      <div class="flex justify-between items-start gap-4 border-b border-slate-200 pb-6 mb-6">
+        <div>
+          <span class="inline-block text-[10px] font-semibold uppercase tracking-widest text-indigo-700 bg-indigo-50 border border-indigo-100 rounded-md px-2.5 py-1">Contrat de prestation web</span>
+          <h1 class="text-2xl font-bold tracking-tight mt-3 text-slate-900" id="docProjectTitle"></h1>
+          <p class="text-xs text-slate-500 mt-1.5">Réf. <span id="docRef"></span> · Émis le <span id="docCurrentDate"></span></p>
+        </div>
+        <div class="text-right shrink-0">
+          <div class="text-sm font-bold tracking-wider text-slate-900">MUHCIN.CODES</div>
+          <p class="text-[11px] text-slate-500">Développement Full-Stack</p>
+          <p class="text-[11px] text-slate-500">Tanger, Maroc</p>
+        </div>
+      </div>
 
-            // Calculations
-            const depositAmount = (totalAmount * (depositPercent / 100));
-            const balancePercent = 100 - depositPercent;
-            const balanceAmount = totalAmount - depositAmount;
+      <div class="grid grid-cols-2 gap-6 mb-8 text-xs p-4 rounded-xl bg-slate-50 border border-slate-200">
+        <div>
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1.5">Prestataire</span>
+          <p class="font-semibold text-sm text-slate-900">Muhcin Full-Stack Dev</p>
+          <p class="text-slate-500">Représentant Muhcin.codes</p>
+          <p class="text-slate-500">Email : m.daghmoumyy@gmail.com</p>
+          <p class="text-slate-500">Web : muhcinee.github.io/MUHCIN.CODES/</p>
+        </div>
+        <div>
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block mb-1.5">Client commanditaire</span>
+          <p class="font-semibold text-sm text-slate-900" id="docClientName"></p>
+          <p class="text-slate-700" id="docClientBusiness"></p>
+          <p class="text-slate-500">Email : <span id="docClientEmail"></span></p>
+          <p class="text-slate-500" id="docClientAddress"></p>
+        </div>
+      </div>
 
-            // DOM Binding
-            document.getElementById('docClientName').innerText = clientName;
-            document.getElementById('docSigClientName').innerText = clientName;
-            document.getElementById('docClientBusiness').innerText = clientBusiness;
-            document.getElementById('docSigClientBusiness').innerText = clientBusiness;
-            document.getElementById('docClientEmail').innerText = 'Email: ' + clientEmail;
-            document.getElementById('docClientAddress').innerText = clientAddress;
-            document.getElementById('docCurrentDate').innerText = formattedDate;
+      <div class="space-y-6 text-xs text-slate-600 leading-relaxed">
+        <section>
+          <h3 class="text-sm font-semibold text-slate-900 mb-1.5"><span class="text-indigo-600 mr-1.5">1.</span>Objet du contrat &amp; périmètre technique</h3>
+          <p>Le présent contrat régit la conception et le développement de <strong class="text-slate-900" id="docProjectTitleScope"></strong> par le Prestataire pour le compte du Client.</p>
+          <div class="mt-2">
+            <p class="mb-1"><strong>Stack technique prévue :</strong> <span id="docTechStack" class="text-slate-900"></span></p>
+            <p><strong>Livrables inclus :</strong></p>
+            <ul id="docDeliverablesList" class="list-disc list-inside mt-1 space-y-0.5 pl-2 text-slate-700"></ul>
+          </div>
+        </section>
 
-            document.getElementById('docProjectTitle').innerText = projectTitle;
-            document.getElementById('docProjectTitleScope').innerText = projectTitle;
-            document.getElementById('docTechStack').innerText = techStack;
-            document.getElementById('docRevisions').innerText = revisions;
-            document.getElementById('docSupportPeriod').innerText = supportPeriod;
+        <section>
+          <h3 class="text-sm font-semibold text-slate-900 mb-1.5"><span class="text-indigo-600 mr-1.5">2.</span>Conditions financières &amp; modalités de paiement</h3>
+          <p>Le montant global forfaitaire accordé pour l'exécution des livrables est de <strong class="text-slate-900 text-sm" id="docTotalAmount"></strong>. Le règlement s'effectuera selon le calendrier suivant :</p>
+          <div class="mt-2.5 grid grid-cols-2 gap-3 text-[11px]">
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="block text-slate-500">Acompte de démarrage (<span id="docDepositRate"></span>%)</span>
+              <span class="font-semibold text-slate-900 text-sm" id="docDepositAmount"></span>
+              <span class="block text-slate-500">À la signature</span>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+              <span class="block text-slate-500">Solde à la livraison (<span id="docBalanceRate"></span>%)</span>
+              <span class="font-semibold text-slate-900 text-sm" id="docBalanceAmount"></span>
+              <span class="block text-slate-500">Avant mise en ligne</span>
+            </div>
+          </div>
+        </section>
 
-            // Deliverables List Update
-            const listContainer = document.getElementById('docDeliverablesList');
-            listContainer.innerHTML = '';
-            const items = rawDeliverables.split(',').map(i => i.trim()).filter(i => i.length > 0);
-            items.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = item;
-                listContainer.appendChild(li);
-            });
+        <section>
+          <h3 class="text-sm font-semibold text-slate-900 mb-1.5"><span class="text-indigo-600 mr-1.5">3.</span>Planning, révisions &amp; support</h3>
+          <p>Le projet sera livré sous un délai estimé à <strong class="text-slate-900" id="docTimeline"></strong> après réception de l'acompte et des éléments nécessaires.</p>
+          <ul class="list-disc list-inside mt-1.5 space-y-0.5 pl-2">
+            <li><strong>Révisions incluses :</strong> <span id="docRevisions" class="text-slate-900"></span>.</li>
+            <li><strong>Garantie &amp; maintenance :</strong> un support de <span id="docSupportPeriod" class="text-slate-900"></span> suit la mise en production officielle.</li>
+          </ul>
+        </section>
 
-            // Financial DOMs
-            document.getElementById('docTotalAmount').innerText = formatCurrency(totalAmount, currency);
-            document.getElementById('docDepositRate').innerText = depositPercent;
-            document.getElementById('docDepositAmount').innerText = formatCurrency(depositAmount, currency);
-            document.getElementById('docBalanceRate').innerText = balancePercent;
-            document.getElementById('docBalanceAmount').innerText = formatCurrency(balanceAmount, currency);
+        <section>
+          <h3 class="text-sm font-semibold text-slate-900 mb-1.5"><span class="text-indigo-600 mr-1.5">4.</span>Propriété intellectuelle</h3>
+          <p>L'intégralité du code source, des accès administratifs et des droits d'exploitation associés au projet est cédée au Client à compter de la réception de l'intégralité du paiement visé à l'Article 2. Le Prestataire conserve le droit de citation du projet à titre de référence sur sa vitrine (Muhcin.dev).</p>
+        </section>
+      </div>
 
-            document.getElementById('docTimeline').innerText = timeline;
-        }
+      <div class="mt-10 pt-6 border-t border-slate-200">
+        <p class="text-[11px] text-slate-500 mb-4 text-center">En signant ci-dessous, les deux parties confirment accepter l'intégralité des clauses contractuelles présentées ci-dessus.</p>
+        <div class="grid grid-cols-2 gap-8">
+          <div class="text-center">
+            <span class="text-[11px] text-slate-500 block mb-2">Pour le Client (<span id="docSigClientBusiness"></span>)</span>
+            <div class="h-24 border border-dashed border-slate-300 rounded-xl flex items-center justify-center p-2 bg-slate-50">
+              <img id="clientSigImg" class="max-h-full max-w-full hidden" alt="Signature du client">
+              <span id="clientSigPlaceholder" class="text-[10px] text-slate-400 italic">Signature du client en attente</span>
+            </div>
+            <p class="text-xs font-semibold text-slate-900 mt-2" id="docSigClientName"></p>
+          </div>
+          <div class="text-center">
+            <span class="text-[11px] text-slate-500 block mb-2">Pour le Prestataire (Muhcin.dev)</span>
+            <div class="h-24 border border-dashed border-slate-300 rounded-xl flex items-center justify-center p-2 bg-slate-50">
+              <img id="devSigImg" class="max-h-full max-w-full hidden" alt="Signature du prestataire">
+            </div>
+            <p class="text-xs font-semibold text-slate-900 mt-2">Muhcin Full-Stack Dev</p>
+          </div>
+        </div>
+      </div>
 
-        function formatCurrency(num, curr) {
-            return new Intl.NumberFormat('fr-FR').format(num) + ' ' + curr;
-        }
+      <div class="mt-8 pt-4 border-t border-slate-200 text-right text-[11px] text-slate-500" dir="rtl">
+        <p><strong>ملخص الاتفاقية:</strong> يتعهد الطرفان بالالتزام بكافة بنود هذا العقد المتعلق بتطوير الموقع والتطبيق الإلكتروني، وتعتبر التوقيعات الرقمية أعلاه ذات حجية قانونية ملزمة للطرفين بعد سداد الدفعة الأولى.</p>
+      </div>
+    </article>
+  </div>
 
-        function setTheme(theme, persist = true) {
-            const isLight = theme === 'light';
-            document.documentElement.classList.toggle('light', isLight);
-            document.documentElement.classList.toggle('dark', !isLight);
+</div>
+</main>
 
-            const toggle = document.getElementById('themeToggle');
-            toggle.setAttribute('aria-label', `Activer le mode ${isLight ? 'sombre' : 'clair'}`);
-            document.getElementById('themeToggleText').textContent = `Mode ${isLight ? 'sombre' : 'clair'}`;
-            toggle.querySelector('.sun-icon').classList.toggle('hidden', isLight);
-            toggle.querySelector('.moon-icon').classList.toggle('hidden', !isLight);
+<script>
+  const $ = id => document.getElementById(id);
+  const INK = '#0f172a';
 
-            if (persist) {
-                localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            }
-        }
+  // Writes a value into the preview, or a muted fallback when the field is empty
+  function put(id, value, fallback) {
+    const el = $(id), has = String(value).trim() !== '';
+    el.textContent = has ? value : fallback;
+    el.classList.toggle('empty', !has);
+  }
 
-        function toggleTheme() {
-            setTheme(document.documentElement.classList.contains('light') ? 'dark' : 'light');
-        }
+  function updateContract() {
+    const name = $('inputClientName').value, biz = $('inputClientBusiness').value;
+    const title = $('inputProjectTitle').value;
 
-        // Copy Contract URL
-        function copyContractLink() {
-            const tempInput = document.createElement('input');
-            tempInput.value = window.location.href;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
+    const rawDate = $('inputContractDate').value;
+    const date = rawDate ? new Date(rawDate + 'T00:00:00') : new Date();
+    $('docCurrentDate').textContent = date.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+    $('docRef').textContent = 'MC-' + date.getFullYear() + '/' + String(date.getMonth() + 1).padStart(2, '0');
 
-            showToast("Lien du contrat copié !");
-        }
+    put('docClientName', name, 'Nom du client');
+    put('docSigClientName', name, 'Nom du client');
+    put('docClientBusiness', biz, 'Entreprise');
+    put('docSigClientBusiness', biz, 'Entreprise');
+    put('docClientEmail', $('inputClientEmail').value, 'à renseigner');
+    put('docClientAddress', $('inputClientAddress').value, 'Adresse à renseigner');
 
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
+    put('docProjectTitle', title, 'Titre du projet');
+    put('docProjectTitleScope', title, 'le projet');
+    put('docTechStack', $('inputTechStack').value, 'à renseigner');
+    put('docRevisions', $('inputRevisions').value, 'à renseigner');
+    put('docSupportPeriod', $('inputSupportPeriod').value, 'à renseigner');
+    put('docTimeline', $('inputTimeline').value, 'un délai à renseigner');
 
-        // --- SIGNATURE CANVAS LOGIC ---
-        function setupSignatureCanvas(canvasId, imgTargetId, placeholderId, onSignedCallback) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            let isDrawing = false;
+    const list = $('docDeliverablesList');
+    list.innerHTML = '';
+    const items = $('inputDeliverables').value.split(',').map(i => i.trim()).filter(Boolean);
+    (items.length ? items : ['À renseigner']).forEach(t => {
+      const li = document.createElement('li');
+      li.textContent = t;
+      if (!items.length) li.className = 'empty';
+      list.appendChild(li);
+    });
 
-            ctx.strokeStyle = '#6b7280';
-            ctx.lineWidth = 2.5;
-            ctx.lineCap = 'round';
+    // Financials
+    const cur = $('inputCurrency').value;
+    const totalRaw = $('inputAmount').value, depRaw = $('inputDepositPercent').value;
+    const hasTotal = totalRaw !== '', hasDep = depRaw !== '';
+    const total = parseFloat(totalRaw) || 0;
+    const dep = Math.min(100, Math.max(0, parseFloat(depRaw) || 0));
+    const fmt = n => new Intl.NumberFormat('fr-FR').format(n) + ' ' + cur;
 
-            function getPos(e) {
-                const rect = canvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return {
-                    x: (clientX - rect.left) * (canvas.width / rect.width),
-                    y: (clientY - rect.top) * (canvas.height / rect.height)
-                };
-            }
+    put('docTotalAmount', hasTotal ? fmt(total) : '', '—');
+    put('docDepositRate', hasDep ? dep : '', '—');
+    put('docBalanceRate', hasDep ? 100 - dep : '', '—');
+    put('docDepositAmount', hasTotal && hasDep ? fmt(total * dep / 100) : '', '—');
+    put('docBalanceAmount', hasTotal && hasDep ? fmt(total - total * dep / 100) : '', '—');
+  }
 
-            function startDraw(e) {
-                isDrawing = true;
-                const pos = getPos(e);
-                ctx.beginPath();
-                ctx.moveTo(pos.x, pos.y);
-            }
+  // Theme
+  function setTheme(theme, persist = true) {
+    const light = theme === 'light';
+    document.documentElement.classList.toggle('light', light);
+    document.documentElement.classList.toggle('dark', !light);
+    $('themeToggleText').textContent = light ? 'Mode sombre' : 'Mode clair';
+    $('themeToggle').setAttribute('aria-label', 'Activer le mode ' + (light ? 'sombre' : 'clair'));
+    $('themeToggle').querySelector('.sun-icon').classList.toggle('hidden', light);
+    $('themeToggle').querySelector('.moon-icon').classList.toggle('hidden', !light);
+    if (persist) localStorage.setItem('theme', light ? 'light' : 'dark');
+  }
+  function toggleTheme() { setTheme(document.documentElement.classList.contains('light') ? 'dark' : 'light'); }
 
-            function draw(e) {
-                if (!isDrawing) return;
-                e.preventDefault();
-                const pos = getPos(e);
-                ctx.lineTo(pos.x, pos.y);
-                ctx.stroke();
-            }
+  // Signature pads
+  function setupSignatureCanvas(canvasId, imgId, placeholderId, onSigned) {
+    const canvas = $(canvasId), ctx = canvas.getContext('2d');
+    let drawing = false;
+    ctx.strokeStyle = INK; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
 
-            function stopDraw() {
-                if (isDrawing) {
-                    isDrawing = false;
-                    syncToDocument();
-                }
-            }
+    const pos = e => {
+      const r = canvas.getBoundingClientRect();
+      const p = e.touches ? e.touches[0] : e;
+      return { x: (p.clientX - r.left) * (canvas.width / r.width), y: (p.clientY - r.top) * (canvas.height / r.height) };
+    };
+    const start = e => { drawing = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); };
+    const move = e => { if (!drawing) return; e.preventDefault(); const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); };
+    const stop = () => {
+      if (!drawing) return;
+      drawing = false;
+      const img = $(imgId);
+      img.src = canvas.toDataURL();
+      img.classList.remove('hidden');
+      if (placeholderId) $(placeholderId).classList.add('hidden');
+      if (onSigned) onSigned();
+    };
 
-            function syncToDocument() {
-                const dataUrl = canvas.toDataURL();
-                const img = document.getElementById(imgTargetId);
-                const placeholder = document.getElementById(placeholderId);
-                
-                if (img) {
-                    img.src = dataUrl;
-                    img.classList.remove('hidden');
-                }
-                if (placeholder) {
-                    placeholder.classList.add('hidden');
-                }
-                if (onSignedCallback) onSignedCallback();
-            }
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    canvas.addEventListener('mouseup', stop);
+    canvas.addEventListener('mouseleave', stop);
+    canvas.addEventListener('touchstart', start, { passive: false });
+    canvas.addEventListener('touchmove', move, { passive: false });
+    canvas.addEventListener('touchend', stop);
+  }
 
-            canvas.addEventListener('mousedown', startDraw);
-            canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stopDraw);
-            canvas.addEventListener('mouseleave', stopDraw);
+  function setSigStatus(signed) {
+    $('clientSigStatus').innerHTML = signed
+      ? '<span class="w-2 h-2 rounded-full" style="background:#10b981"></span><span style="color:#10b981;font-weight:600">Signature enregistrée</span>'
+      : '<span class="w-2 h-2 rounded-full" style="background:#f59e0b"></span><span>En attente de signature</span>';
+  }
 
-            canvas.addEventListener('touchstart', startDraw, { passive: false });
-            canvas.addEventListener('touchmove', draw, { passive: false });
-            canvas.addEventListener('touchend', stopDraw);
-        }
+  function clearCanvas(canvasId) {
+    const canvas = $(canvasId);
+    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    if (canvasId === 'clientSigCanvas') {
+      $('clientSigImg').classList.add('hidden');
+      $('clientSigPlaceholder').classList.remove('hidden');
+      setSigStatus(false);
+    } else {
+      $('devSigImg').classList.add('hidden');
+    }
+  }
 
-        function clearCanvas(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+  function drawDevDefaultSignature() {
+    const canvas = $('devSigCanvas'), ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = INK; ctx.fillStyle = INK; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(40, 65);
+    ctx.bezierCurveTo(60, 15, 80, 95, 100, 35);
+    ctx.bezierCurveTo(120, 85, 140, 25, 170, 55);
+    ctx.stroke();
+    ctx.font = 'italic 18px Inter, sans-serif';
+    ctx.fillText('Muhcin.dev', 160, 65);
+    ctx.beginPath(); ctx.moveTo(150, 75); ctx.lineTo(280, 75); ctx.stroke();
+    $('devSigImg').src = canvas.toDataURL();
+    $('devSigImg').classList.remove('hidden');
+  }
 
-            if (canvasId === 'clientSigCanvas') {
-                document.getElementById('clientSigImg').classList.add('hidden');
-                document.getElementById('clientSigPlaceholder').classList.remove('hidden');
-                document.getElementById('clientSigStatus').innerHTML = `
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>En attente...</span>
-                `;
-            } else if (canvasId === 'devSigCanvas') {
-                document.getElementById('devSigImg').src = '';
-            }
-        }
-
-        // Draw default signature for Muhcin.dev
-        function drawDevDefaultSignature() {
-            const canvas = document.getElementById('devSigCanvas');
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            ctx.strokeStyle = '#6b7280';
-            ctx.lineWidth = 2.5;
-            ctx.lineCap = 'round';
-
-            // Stylized signature path
-            ctx.beginPath();
-            ctx.moveTo(40, 65);
-            ctx.bezierCurveTo(60, 15, 80, 95, 100, 35);
-            ctx.bezierCurveTo(120, 85, 140, 25, 170, 55);
-            ctx.stroke();
-
-            ctx.font = 'italic 18px Inter';
-            ctx.fillStyle = '#6b7280';
-            ctx.fillText('Muhcin.dev', 160, 65);
-
-            ctx.beginPath();
-            ctx.moveTo(150, 75);
-            ctx.lineTo(280, 75);
-            ctx.stroke();
-
-            // Sync to preview
-            document.getElementById('devSigImg').src = canvas.toDataURL();
-        }
-
-        // Initialize App
-        window.onload = function() {
-            setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark', false);
-            updateContract();
-
-            setupSignatureCanvas('clientSigCanvas', 'clientSigImg', 'clientSigPlaceholder', function() {
-                document.getElementById('clientSigStatus').innerHTML = `
-                    <span class="w-2 h-2 rounded-full bg-grayAccent"></span>
-                    <span class="text-grayAccent font-semibold">Signé avec succès !</span>
-                `;
-            });
-
-            setupSignatureCanvas('devSigCanvas', 'devSigImg', null);
-            drawDevDefaultSignature();
-        };
-    </script>
+  window.onload = function () {
+    setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark', false);
+    updateContract();
+    setupSignatureCanvas('clientSigCanvas', 'clientSigImg', 'clientSigPlaceholder', () => setSigStatus(true));
+    setupSignatureCanvas('devSigCanvas', 'devSigImg', null);
+    drawDevDefaultSignature();
+  };
+</script>
 </body>
 </html>
