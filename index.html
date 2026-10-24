@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contrat de Prestation - Muhcin.dev</title>
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.replace('dark', 'light');
+        }
+    </script>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -14,8 +19,8 @@
                     colors: {
                         darkBg: '#0a0a0c',
                         cardBg: 'rgba(18, 18, 22, 0.75)',
-                        goldAccent: '#d4af37',
-                        goldHover: '#f3e5ab',
+                        grayAccent: '#6b7280',
+                        grayHover: '#d1d5db',
                         crimsonAccent: '#e63946'
                     },
                     fontFamily: {
@@ -28,59 +33,134 @@
     <!-- Inter Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            color-scheme: dark;
+            --page-bg: #0a0a0c;
+            --page-fg: #e2e8f0;
+            --panel-bg: rgba(18, 18, 22, 0.75);
+            --input-bg: rgba(10, 10, 12, 0.8);
+            --input-fg: #f8fafc;
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --accent: #6b7280;
+        }
+
+        html.light {
+            color-scheme: light;
+            --page-bg: #f3f4f6;
+            --page-fg: #1f2937;
+            --panel-bg: rgba(255, 255, 255, 0.88);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --input-fg: #111827;
+            --surface-border: rgba(15, 23, 42, 0.12);
+            --accent: #4b5563;
+        }
+
         body {
-            background-color: #0a0a0c;
-            color: #e2e8f0;
+            background-color: var(--page-bg);
+            color: var(--page-fg);
             font-family: 'Inter', sans-serif;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(212, 175, 55, 0.05) 0%, transparent 45%),
+            background-image:
+                radial-gradient(circle at 15% 15%, rgba(107, 114, 128, 0.08) 0%, transparent 45%),
                 radial-gradient(circle at 85% 85%, rgba(230, 57, 70, 0.04) 0%, transparent 45%);
             background-attachment: fixed;
         }
 
         /* Glassmorphism Styles */
         .glass-panel {
-            background: rgba(18, 18, 22, 0.75);
+            background: var(--panel-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--surface-border);
         }
 
         .glass-input {
-            background: rgba(10, 10, 12, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #f8fafc;
+            background: var(--input-bg);
+            border: 1px solid var(--surface-border);
+            color: var(--input-fg);
             transition: all 0.25s ease;
         }
 
         .glass-input:focus {
-            border-color: #d4af37;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(107, 114, 128, 0.25);
             outline: none;
         }
 
-        /* Gold Gradient Text - Fixed standard property compatibility */
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa7c11 100%);
+        .gray-gradient-text {
+            background: linear-gradient(135deg, #e5e7eb 0%, #9ca3af 50%, #4b5563 100%);
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Gold Border Glow */
-        .gold-glow-hover {
+        .gray-glow-hover {
             transition: all 0.3s ease;
         }
-        .gold-glow-hover:hover {
-            border-color: rgba(212, 175, 55, 0.5);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        .gray-glow-hover:hover {
+            border-color: rgba(156, 163, 175, 0.5);
+            box-shadow: 0 0 20px rgba(107, 114, 128, 0.15);
         }
 
         /* Canvas Signature styling */
         .sig-canvas {
             touch-action: none;
             cursor: crosshair;
-            background: rgba(10, 10, 12, 0.95);
+            background: var(--input-bg);
+        }
+
+        html.light .text-white {
+            color: #111827 !important;
+        }
+
+        html.light .text-gray-300 {
+            color: #4b5563 !important;
+        }
+
+        html.light .text-gray-400,
+        html.light .text-gray-500 {
+            color: #6b7280 !important;
+        }
+
+        html.light .text-gray-600 {
+            color: #4b5563 !important;
+        }
+
+        html.light .text-grayAccent {
+            color: #4b5563 !important;
+        }
+
+        html.light [class~="border-white/5"],
+        html.light [class~="border-white/10"],
+        html.light [class~="border-white/20"] {
+            border-color: var(--surface-border) !important;
+        }
+
+        html.light [class~="bg-white/5"],
+        html.light [class~="bg-white/10"] {
+            background-color: rgba(15, 23, 42, 0.04) !important;
+        }
+
+        html.light [class~="bg-black/30"] {
+            background-color: rgba(15, 23, 42, 0.04) !important;
+        }
+
+        html.light [class~="bg-grayAccent"] {
+            background-color: #4b5563 !important;
+            color: #ffffff !important;
+        }
+
+        html.light [class~="from-grayAccent"] {
+            --tw-gradient-from: #d1d5db var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(209 213 219 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+
+        html.light [class~="to-gray-500"] {
+            --tw-gradient-to: #9ca3af var(--tw-gradient-to-position);
+        }
+
+        html.light .gray-gradient-text {
+            background-image: linear-gradient(135deg, #374151 0%, #6b7280 50%, #9ca3af 100%);
         }
 
         /* Print Media Stylesheet */
@@ -109,7 +189,7 @@
                 color: #0f172a !important;
                 border-color: #cbd5e1 !important;
             }
-            .gold-gradient-text {
+            .gray-gradient-text {
                 background: none !important;
                 background-clip: border-box !important;
                 -webkit-background-clip: border-box !important;
@@ -128,7 +208,7 @@
 <body class="min-h-screen pb-16">
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-goldAccent text-black font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2">
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-grayAccent text-black font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
         <span id="toastMsg">Lien copié dans le presse-papiers !</span>
     </div>
@@ -137,22 +217,28 @@
     <header class="no-print border-b border-white/10 glass-panel sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-goldAccent to-yellow-700 flex items-center justify-center font-bold text-black text-xl shadow-lg shadow-goldAccent/20">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-grayAccent to-gray-600 flex items-center justify-center font-bold text-black text-xl shadow-lg shadow-grayAccent/20">
                     M
                 </div>
                 <div>
-                    <span class="text-xl font-bold tracking-wider gold-gradient-text">MUHCIN.DEV</span>
+                    <span class="text-xl font-bold tracking-wider gray-gradient-text">MUHCIN.CODES</span>
                     <span class="text-xs block text-gray-400 font-medium">Contrat de Prestation Freelance</span>
                 </div>
             </div>
             
             <div class="flex items-center space-x-3">
+                <button id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Activer le mode clair" class="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-medium text-xs hover:bg-white/10 hover:text-white transition flex items-center space-x-2">
+                    <svg class="sun-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke-width="2"></circle><path stroke-linecap="round" stroke-width="2" d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+                    <svg class="moon-icon w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.9 13A9 9 0 0111 3.1 9 9 0 1020.9 13z"></path></svg>
+                    <span id="themeToggleText">Mode clair</span>
+                </button>
+
                 <button onclick="copyContractLink()" class="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-medium text-xs hover:bg-white/10 hover:text-white transition flex items-center space-x-2">
-                    <svg class="w-4 h-4 text-goldAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    <svg class="w-4 h-4 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                     <span>Copier Lien du Contrat</span>
                 </button>
 
-                <button onclick="window.print()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-goldAccent to-amber-600 text-black font-semibold text-xs hover:brightness-110 transition flex items-center space-x-2 shadow-lg shadow-goldAccent/20">
+                <button onclick="window.print()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-grayAccent to-gray-500 text-black font-semibold text-xs hover:brightness-110 transition flex items-center space-x-2 shadow-lg shadow-grayAccent/20">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                     <span>Imprimer / Télécharger PDF</span>
                 </button>
@@ -168,9 +254,9 @@
             <div class="lg:col-span-5 space-y-6 no-print">
                 
                 <!-- Client Details Panel -->
-                <div class="glass-panel p-6 rounded-2xl gold-glow-hover">
-                    <h2 class="text-base font-semibold gold-gradient-text mb-4 flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-goldAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <div class="glass-panel p-6 rounded-2xl gray-glow-hover">
+                    <h2 class="text-base font-semibold gray-gradient-text mb-4 flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                         <span>1. Informations du Client</span>
                     </h2>
                     
@@ -204,9 +290,9 @@
                 </div>
 
                 <!-- Project Scope Panel -->
-                <div class="glass-panel p-6 rounded-2xl gold-glow-hover">
-                    <h2 class="text-base font-semibold gold-gradient-text mb-4 flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-goldAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <div class="glass-panel p-6 rounded-2xl gray-glow-hover">
+                    <h2 class="text-base font-semibold gray-gradient-text mb-4 flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         <span>2. Détails & Périmètre du Projet</span>
                     </h2>
 
@@ -235,9 +321,9 @@
                 </div>
 
                 <!-- Financials & Timeline Panel -->
-                <div class="glass-panel p-6 rounded-2xl gold-glow-hover">
-                    <h2 class="text-base font-semibold gold-gradient-text mb-4 flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-goldAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="glass-panel p-6 rounded-2xl gray-glow-hover">
+                    <h2 class="text-base font-semibold gray-gradient-text mb-4 flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         <span>3. Financement & Calendrier</span>
                     </h2>
 
@@ -275,10 +361,10 @@
                 </div>
 
                 <!-- Signatures Pads Controls -->
-                <div class="glass-panel p-6 rounded-2xl gold-glow-hover space-y-6">
+                <div class="glass-panel p-6 rounded-2xl gray-glow-hover space-y-6">
                     <div>
-                        <h2 class="text-base font-semibold gold-gradient-text mb-3 flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-goldAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        <h2 class="text-base font-semibold gray-gradient-text mb-3 flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             <span>4. Signature Numérique du Client</span>
                         </h2>
                         <p class="text-xs text-gray-400 mb-2">Veuillez signer à l'aide de votre souris ou écran tactile :</p>
@@ -298,8 +384,8 @@
                     </div>
 
                     <div class="pt-4 border-t border-white/10">
-                        <h2 class="text-base font-semibold gold-gradient-text mb-3 flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-goldAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        <h2 class="text-base font-semibold gray-gradient-text mb-3 flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-grayAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                             <span>Signature du Prestataire (Muhcin.dev)</span>
                         </h2>
                         <div class="border border-white/20 rounded-xl overflow-hidden relative">
@@ -309,7 +395,7 @@
                             <button onclick="clearCanvas('devSigCanvas')" class="px-3 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs hover:bg-red-500/20 transition">
                                 Effacer
                             </button>
-                            <button onclick="drawDevDefaultSignature()" class="text-xs text-goldAccent hover:underline">
+                            <button onclick="drawDevDefaultSignature()" class="text-xs text-grayAccent hover:underline">
                                 Réinitialiser Signature Par Défaut
                             </button>
                         </div>
@@ -325,16 +411,16 @@
                     <!-- Document Watermark/Badge -->
                     <div class="flex justify-between items-start border-b border-white/10 pb-6 mb-6">
                         <div>
-                            <span class="text-xs font-bold uppercase tracking-widest text-goldAccent print-badge px-2.5 py-1 rounded-md bg-goldAccent/10 border border-goldAccent/20">
+                            <span class="text-xs font-bold uppercase tracking-widest text-grayAccent print-badge px-2.5 py-1 rounded-md bg-grayAccent/10 border border-grayAccent/20">
                                 CONTRAT OFFICIEL DE PRESTATION WEB
                             </span>
-                            <h1 class="text-2xl font-extrabold mt-3 gold-gradient-text" id="docProjectTitle">
+                            <h1 class="text-2xl font-extrabold mt-3 gray-gradient-text" id="docProjectTitle">
                                 Plateforme Web & Application Dashboard - Casa Sushi
                             </h1>
                             <p class="text-xs text-gray-400 mt-1">Réf: CS-DEV-2026/08 • Émis le <span id="docCurrentDate"></span></p>
                         </div>
                         <div class="text-right">
-                            <span class="text-lg font-bold tracking-wider text-white">MUHCIN.DEV</span>
+                            <span class="text-lg font-bold tracking-wider text-white">MUHCIN.CODES</span>
                             <p class="text-[11px] text-gray-400">Développement Full-Stack</p>
                             <p class="text-[11px] text-gray-400">Tanger, Maroc</p>
                         </div>
@@ -343,14 +429,14 @@
                     <!-- Contract Parties Section -->
                     <div class="grid grid-cols-2 gap-6 mb-8 text-xs p-4 rounded-xl bg-white/5 border border-white/5">
                         <div>
-                            <span class="text-goldAccent font-semibold uppercase tracking-wider block mb-1">PRESTATAIRE (DÉVELOPPEUR)</span>
+                            <span class="text-grayAccent font-semibold uppercase tracking-wider block mb-1">PRESTATAIRE (DÉVELOPPEUR)</span>
                             <p class="font-bold text-sm text-white">Muhcin Full-Stack Dev</p>
-                            <p class="text-gray-400">Représentant Muhcin.dev</p>
-                            <p class="text-gray-400">Email: contact@muhcin.dev</p>
-                            <p class="text-gray-400">Web: https://muhcin.dev</p>
+                            <p class="text-gray-400">Représentant Muhcin.codes</p>
+                            <p class="text-gray-400">Email: m.daghmoumyy@gmail.com</p>
+                            <p class="text-gray-400">Web: muhcinee.github.io/MUHCIN.CODES/</p>
                         </div>
                         <div>
-                            <span class="text-goldAccent font-semibold uppercase tracking-wider block mb-1">CLIENT COMMANDITAIRE</span>
+                            <span class="text-grayAccent font-semibold uppercase tracking-wider block mb-1">CLIENT COMMANDITAIRE</span>
                             <p class="font-bold text-sm text-white" id="docClientName">Kharbouch Youssef</p>
                             <p class="text-gray-300 font-medium" id="docClientBusiness">Casa Sushi SARL</p>
                             <p class="text-gray-400" id="docClientEmail">Email: contact@casasushi.ma</p>
@@ -364,7 +450,7 @@
                         <!-- Article 1 -->
                         <div>
                             <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-goldAccent">1.</span>
+                                <span class="text-grayAccent">1.</span>
                                 <span>Objet du Contrat & Périmètre Technique</span>
                             </h3>
                             <p>
@@ -381,11 +467,11 @@
                         <!-- Article 2 -->
                         <div>
                             <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-goldAccent">2.</span>
+                                <span class="text-grayAccent">2.</span>
                                 <span>Conditions Financières & Modalités de Paiement</span>
                             </h3>
                             <p>
-                                Le montant global forfaitaire accordé pour l'exécution globale des livrables est de <strong class="text-goldAccent font-bold text-sm" id="docTotalAmount">15 000 MAD</strong>. Le règlement s'effectuera selon le calendrier suivant :
+                                Le montant global forfaitaire accordé pour l'exécution globale des livrables est de <strong class="text-grayAccent font-bold text-sm" id="docTotalAmount">15 000 MAD</strong>. Le règlement s'effectuera selon le calendrier suivant :
                             </p>
                             <div class="mt-2.5 grid grid-cols-2 gap-3 text-[11px]">
                                 <div class="p-3 rounded-xl bg-black/40 border border-white/10">
@@ -402,7 +488,7 @@
                         <!-- Article 3 -->
                         <div>
                             <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-goldAccent">3.</span>
+                                <span class="text-grayAccent">3.</span>
                                 <span>Planning, Révisions & Support</span>
                             </h3>
                             <p>
@@ -417,7 +503,7 @@
                         <!-- Article 4 -->
                         <div>
                             <h3 class="text-sm font-bold text-white mb-1.5 flex items-center space-x-2">
-                                <span class="text-goldAccent">4.</span>
+                                <span class="text-grayAccent">4.</span>
                                 <span>Propriété Intellectuelle</span>
                             </h3>
                             <p>
@@ -536,6 +622,26 @@
             return new Intl.NumberFormat('fr-FR').format(num) + ' ' + curr;
         }
 
+        function setTheme(theme, persist = true) {
+            const isLight = theme === 'light';
+            document.documentElement.classList.toggle('light', isLight);
+            document.documentElement.classList.toggle('dark', !isLight);
+
+            const toggle = document.getElementById('themeToggle');
+            toggle.setAttribute('aria-label', `Activer le mode ${isLight ? 'sombre' : 'clair'}`);
+            document.getElementById('themeToggleText').textContent = `Mode ${isLight ? 'sombre' : 'clair'}`;
+            toggle.querySelector('.sun-icon').classList.toggle('hidden', isLight);
+            toggle.querySelector('.moon-icon').classList.toggle('hidden', !isLight);
+
+            if (persist) {
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            }
+        }
+
+        function toggleTheme() {
+            setTheme(document.documentElement.classList.contains('light') ? 'dark' : 'light');
+        }
+
         // Copy Contract URL
         function copyContractLink() {
             const tempInput = document.createElement('input');
@@ -563,7 +669,7 @@
             const ctx = canvas.getContext('2d');
             let isDrawing = false;
 
-            ctx.strokeStyle = '#d4af37'; // Gold signature ink
+            ctx.strokeStyle = '#6b7280';
             ctx.lineWidth = 2.5;
             ctx.lineCap = 'round';
 
@@ -647,7 +753,7 @@
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            ctx.strokeStyle = '#d4af37';
+            ctx.strokeStyle = '#6b7280';
             ctx.lineWidth = 2.5;
             ctx.lineCap = 'round';
 
@@ -659,7 +765,7 @@
             ctx.stroke();
 
             ctx.font = 'italic 18px Inter';
-            ctx.fillStyle = '#d4af37';
+            ctx.fillStyle = '#6b7280';
             ctx.fillText('Muhcin.dev', 160, 65);
 
             ctx.beginPath();
@@ -673,12 +779,13 @@
 
         // Initialize App
         window.onload = function() {
+            setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark', false);
             updateContract();
 
             setupSignatureCanvas('clientSigCanvas', 'clientSigImg', 'clientSigPlaceholder', function() {
                 document.getElementById('clientSigStatus').innerHTML = `
-                    <span class="w-2 h-2 rounded-full bg-goldAccent"></span>
-                    <span class="text-goldAccent font-semibold">Signé avec succès !</span>
+                    <span class="w-2 h-2 rounded-full bg-grayAccent"></span>
+                    <span class="text-grayAccent font-semibold">Signé avec succès !</span>
                 `;
             });
 
