@@ -8,7 +8,7 @@
   if (localStorage.getItem('theme') === 'light') document.documentElement.classList.replace('dark', 'light');
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root, html.light {
     color-scheme: light;
@@ -62,11 +62,27 @@
   .paper { background:#fff; color:#0f172a; border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); }
   .empty { color:#94a3b8 !important; font-style:italic; font-weight:400 !important; }
 
+  .paper { font-family:'Inter',system-ui,-apple-system,'Segoe UI',Arial,sans-serif; }
+  .ar { font-family:'Cairo','Noto Naskh Arabic','Segoe UI',Tahoma,Arial,sans-serif; }
+
+  @page { size:A4; margin:16mm 15mm; }
   @media print {
-    body { background:#fff !important; }
+    html { color-scheme:light !important; }
+    html, body { background:#fff !important; }
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     .no-print { display:none !important; }
-    .print-full { width:100% !important; max-width:100% !important; margin:0 !important; padding:0 !important; }
-    .paper { border:none !important; box-shadow:none !important; padding:0 !important; }
+    main { padding:0 !important; max-width:none !important; }
+    .print-full { width:100% !important; max-width:100% !important; margin:0 !important; padding:0 !important; grid-column:1 / -1 !important; }
+    .paper { border:none !important; box-shadow:none !important; padding:0 !important; border-radius:0 !important;
+             font-size:10pt; line-height:1.6; color:#0f172a; }
+    /* Screen sizes are px-based and too small on paper: re-set them in pt */
+    .paper .text-\[10px\] { font-size:8pt !important; }
+    .paper .text-\[11px\] { font-size:9pt !important; }
+    .paper .text-xs { font-size:9.5pt !important; }
+    .paper .text-sm { font-size:11pt !important; }
+    .paper .text-2xl { font-size:20pt !important; line-height:1.2 !important; }
+    .paper section, .paper .grid, .paper h3 { break-inside:avoid; page-break-inside:avoid; }
+    .paper h3 { break-after:avoid; page-break-after:avoid; }
   }
 </style>
 </head>
@@ -87,7 +103,7 @@
         <svg class="moon-icon w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.9 13A9 9 0 0111 3.1 9 9 0 1020.9 13z"/></svg>
         <span id="themeToggleText" class="hidden sm:inline">Mode clair</span>
       </button>
-      <button type="button" onclick="window.print()" class="btn btn-primary">
+      <button type="button" onclick="printContract()" class="btn btn-primary">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
         <span>Imprimer / PDF</span>
       </button>
@@ -261,7 +277,7 @@
         </div>
       </div>
 
-      <div class="mt-8 pt-4 border-t border-slate-200 text-right text-[11px] text-slate-500" dir="rtl">
+      <div class="ar mt-8 pt-4 border-t border-slate-200 text-right text-[11px] text-slate-500" dir="rtl">
         <p><strong>ملخص الاتفاقية:</strong> يتعهد الطرفان بالالتزام بكافة بنود هذا العقد المتعلق بتطوير الموقع والتطبيق الإلكتروني، وتعتبر التوقيعات الرقمية أعلاه ذات حجية قانونية ملزمة للطرفين بعد سداد الدفعة الأولى.</p>
       </div>
     </article>
@@ -408,12 +424,21 @@
     $('devSigImg').classList.remove('hidden');
   }
 
+  // Print only once web fonts are loaded, so the PDF embeds Inter / Cairo and not a fallback
+  function printContract() {
+    Promise.all([
+      document.fonts.load('400 12px Inter'), document.fonts.load('600 12px Inter'),
+      document.fonts.load('700 12px Inter'), document.fonts.load('400 12px Cairo')
+    ]).catch(() => {}).then(() => document.fonts.ready).then(() => window.print());
+  }
+
   window.onload = function () {
     setTheme(document.documentElement.classList.contains('light') ? 'light' : 'dark', false);
     updateContract();
     setupSignatureCanvas('clientSigCanvas', 'clientSigImg', 'clientSigPlaceholder', () => setSigStatus(true));
     setupSignatureCanvas('devSigCanvas', 'devSigImg', null);
-    drawDevDefaultSignature();
+    // The default signature contains text drawn on a canvas: wait for Inter first
+    document.fonts.load('italic 400 18px Inter').catch(() => {}).then(drawDevDefaultSignature);
   };
 </script>
 </body>
